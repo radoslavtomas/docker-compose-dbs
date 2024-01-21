@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  mariadb:
+    image: mariadb
+    restart: always
+    volumes:
+      - mariadb-volume:/var/lib/mysql
+    environment:
+      - MARIADB_ROOT_PASSWORD=password
+      - MARIADB_AUTO_UPGRADE=true
+    ports:
+      - "3306:3306"
+
+  postgres:
+    image: postgres
+    restart: always
+    volumes:
+      - postgres-volume:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=password
+    ports:
+      - "5432:5432"
+    
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server
+    user: root
+    restart: always
+    volumes:
+     - sqlserver-volume:/var/opt/mssql/data
+    environment:
+     - SA_PASSWORD=Pass@word
+     - ACCEPT_EULA=Y
+    ports:
+     - "1433:1433"
+
+  adminer:
+    image: adminer
+    restart: always
+    ports:
+      - "8080:8080"
+
+volumes:
+  mariadb-volume:
+  postgres-volume:
+  sqlserver-volume:
+    driver: local
